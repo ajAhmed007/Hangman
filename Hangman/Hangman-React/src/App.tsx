@@ -4,11 +4,20 @@ import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
 import words from "./wordList.json";
 import Confetti from "react-dom-confetti";
+import styles from "./App.module.css";
+
+
 function getWord() {
   return words[Math.floor(Math.random() * words.length)];
 }
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    document.body.style.backgroundColor = darkMode ? "#333" : "#FFF";
+    document.body.style.color = darkMode ? "#FFF" : "#333";
+  }, [darkMode]);
+  
   const [wordToGuess, setWordToGuess] = useState(getWord);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const config = {
@@ -87,6 +96,9 @@ function App() {
         alignItems: "center",
       }}
     >
+      <div>
+        <button onClick={() => setDarkMode(!darkMode)}>Toggle Dark Mode</button>
+      </div>
       <div style={{ fontSize: "2rem", textAlign: "center" }}>
         {isWinner && "Winner! - Refresh to try again"}
         {isLoser && "Nice Try - Refresh to try again"}
